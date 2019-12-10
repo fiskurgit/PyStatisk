@@ -1,7 +1,16 @@
 import Log
+import Dither
 import sys
 import markdown
 from pathlib import Path
+
+
+def process_images(directory):
+    files = directory.glob('*')
+    for file_name in files:
+        file = Path(file_name)
+        if file.name.endswith(".jpeg") or file.name.endswith(".jpg") or file.name.endswith(".png"):
+            Dither.process(file)
 
 
 def process_markdown(html_template, markdown_file):
@@ -16,6 +25,8 @@ def process_markdown(html_template, markdown_file):
     html = markdown.markdown(md_content.read())
     output_html = html_template.replace("{{ content }}", html)
     output_file.write_text(output_html)
+
+    process_images(markdown_file.parent)
 
 
 def process_posts(template, posts):
