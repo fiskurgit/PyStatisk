@@ -5,19 +5,16 @@ from pathlib import Path
 
 
 def process_markdown(html_template, markdown_file):
-    Log.blue('processing:  %s' % markdown_file)
+    Log.line_break()
+    Log.salmon('processing:  %s' % markdown_file)
+
+    output_filename = markdown_file.name.replace(".md", ".html")
+    output_file = Path(markdown_file.parent, output_filename)
+    Log.purple('output file: %s' % output_file)
 
     md_content = open(markdown_file)
     html = markdown.markdown(md_content.read())
-
-    output_dir = markdown_file.parent
-    output_filename = markdown_file.name.replace(".md", ".html")
-    output_file = Path(output_dir, output_filename)
-    Log.purple('output file: %s' % output_file)
-
     output_html = html_template.replace("{{ content }}", html)
-    Log.salmon(output_html)
-
     output_file.write_text(output_html)
 
 
