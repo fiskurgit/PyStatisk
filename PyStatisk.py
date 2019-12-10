@@ -1,26 +1,30 @@
 import Log
 import sys
-import os
+import markdown
 from pathlib import Path
 
 
-def process_markdown(template, markdown_file):
-    Log.blue('processing %s' % markdown_file)
+def process_markdown(html_template, markdown_file):
+    Log.blue('processing:  %s' % markdown_file)
+
+    md_content = open(markdown_file)
+    html = markdown.markdown(md_content.read())
+
+    output_dir = markdown_file.parent
+    output_filename = markdown_file.name.replace(".md", ".html")
+    output_file = Path(output_dir, output_filename)
+    Log.purple('output file: %s' % output_file)
+
+    output_html = html_template.replace("{{ content }}", html)
+    Log.salmon(output_html)
+
+    output_file.write_text(output_html)
 
 
 def process_posts(template, posts):
-    found_markdown = False
-    for file in os.listdir(posts):
-        filename = os.fsdecode(file)
-        if filename.endswith(".md"):
-            found_markdown = True
-            process_markdown(template, file)
-            continue
-        else:
-            continue
-
-    if not found_markdown:
-        Log.fatal_error("no markdown files found in %s" % posts)
+    markdown_files = Path(posts).glob('**/*/*.md')
+    for md in markdown_files:
+        process_markdown(template, md)
 
 
 def process_path(root):
@@ -30,7 +34,8 @@ def process_path(root):
         posts_directory = Path(root, 'posts')
         if posts_directory.exists():
             Log.blue('%s exists...' % posts_directory)
-            process_posts(template, posts_directory)
+            html_template = open(template).read()
+            process_posts(html_template, posts_directory)
         else:
             Log.fatal_error('missing posts/ directory')
     else:
@@ -38,9 +43,7 @@ def process_path(root):
 
 
 if __name__ == '__main__':
-    Log.line_break()
     Log.title()
-    Log.line_break()
     Log.blue("PyStatisk")
 
     argumentCount = len(sys.argv)
