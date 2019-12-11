@@ -8,6 +8,6 @@ setup(
     license='GNU General Public License v3.0',
     author='fiskurgit',
     author_email='fiskdebug@gmail.com',
-    description='Simple markdown based static site generator',
+    description='Simple markdown based low bandwidth static site generator',
     python_requires='>=3', install_requires=['markdown', 'termcolor', 'Pillow']
 )
