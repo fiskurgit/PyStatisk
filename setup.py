@@ -9,5 +9,5 @@ setup(
     author='fiskurgit',
     author_email='fiskdebug@gmail.com',
     description='Simple markdown based static site generator',
-    python_requires='>=3',
+    python_requires='>=3', install_requires=['markdown', 'termcolor', 'Pillow']
 )
