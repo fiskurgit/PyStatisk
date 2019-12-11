@@ -3,15 +3,19 @@ import sys
 import markdown
 from pathlib import Path
 
+DITHER_PREFIX = "p_"
+
 
 def process_images(directory):
     files = directory.glob('*')
     for file_name in files:
         file = Path(file_name)
-        if not str(file.name).startswith("processed") and \
-                file.name.endswith(".jpeg") or file.name.endswith(".jpg") or file.name.endswith(".png"):
+        if not str(file.name).startswith(DITHER_PREFIX) and \
+                file.name.endswith(".jpeg") or \
+                file.name.endswith(".jpg") or \
+                file.name.endswith(".png"):
             Log.blue('dithering:   %s' % file)
-            Dither.filter_stucki(file, 185)
+            Dither.filter_stucki(file, 185, DITHER_PREFIX)
 
 
 def process_markdown(html_template, markdown_file):
@@ -69,4 +73,3 @@ if __name__ == '__main__':
         process_path(websiteRoot)
     else:
         Log.fatal_error('path cannot be found')
-
