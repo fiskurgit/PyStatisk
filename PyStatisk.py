@@ -9,8 +9,10 @@ def process_images(directory):
     files = directory.glob('*')
     for file_name in files:
         file = Path(file_name)
-        if file.name.endswith(".jpeg") or file.name.endswith(".jpg") or file.name.endswith(".png"):
-            Dither.process(file)
+        if not str(file.name).startswith("processed") and \
+                file.name.endswith(".jpeg") or file.name.endswith(".jpg") or file.name.endswith(".png"):
+            Log.blue('dithering:   %s' % file)
+            Dither.filter_stucki(file, 185)
 
 
 def process_markdown(html_template, markdown_file):
