@@ -1,3 +1,5 @@
+import re
+
 from pystatisk import Dither, Log
 import sys
 import markdown
@@ -29,6 +31,15 @@ def process_markdown(html_template, markdown_file):
     md_content = open(markdown_file)
     html = markdown.markdown(md_content.read())
     output_html = html_template.replace("{{ content }}", html)
+
+    # Replace image references
+    images = re.findall("([-\w]+\.(?:jpg|gif|png|jpeg))", output_html, re.IGNORECASE)
+    Log.salmon('Images: %s' % images)
+
+    for image_ref in images:
+        processed_filename = '%s%s' % (DITHER_PREFIX, image_ref)
+        output_html = output_html.replace(image_ref, processed_filename)
+
     output_file.write_text(output_html)
 
     process_images(markdown_file.parent)
