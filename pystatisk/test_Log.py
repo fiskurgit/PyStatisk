@@ -1,3 +1,7 @@
-# Dummy test
-def test_dummy():
-    assert True
+from pystatisk import Log
+
+
+def test_title(capsys):
+    Log.title()
+    captured = capsys.readouterr()
+    assert str(captured.out).__contains__(Log.ascii_title)

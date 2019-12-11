@@ -1,13 +1,14 @@
 from termcolor import colored, cprint
 
-
-# https://pypi.org/project/termcolor/
-def title():
-    ascii_title = """ ▄▄▄· ▄· ▄▌.▄▄ · ▄▄▄▄▄ ▄▄▄· ▄▄▄▄▄▪  .▄▄ · ▄ •▄ 
+ascii_title = """ ▄▄▄· ▄· ▄▌.▄▄ · ▄▄▄▄▄ ▄▄▄· ▄▄▄▄▄▪  .▄▄ · ▄ •▄ 
 ▐█ ▄█▐█▪██▌▐█ ▀. •██  ▐█ ▀█ •██  ██ ▐█ ▀. █▌▄▌▪
  ██▀·▐█▌▐█▪▄▀▀▀█▄ ▐█.▪▄█▀▀█  ▐█.▪▐█·▄▀▀▀█▄▐▀▀▄·
 ▐█▪·• ▐█▀·.▐█▄▪▐█ ▐█▌·▐█ ▪▐▌ ▐█▌·▐█▌▐█▄▪▐█▐█.█▌
 .▀     ▀ •  ▀▀▀▀  ▀▀▀  ▀  ▀  ▀▀▀ ▀▀▀ ▀▀▀▀ ·▀  ▀"""
+
+
+# https://pypi.org/project/termcolor/
+def title():
     line_break()
     salmon(ascii_title)
     line_break()
