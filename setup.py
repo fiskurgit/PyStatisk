@@ -8,5 +8,6 @@ setup(
     license='GNU General Public License v3.0',
     author='fiskurgit',
     author_email='fiskdebug@gmail.com',
-    description='Simple markdown based static site generator'
+    description='Simple markdown based static site generator',
+    python_requires='>=3',
 )
