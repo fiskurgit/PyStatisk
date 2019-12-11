@@ -1,5 +1,4 @@
-import Log
-import Dither
+from pystatisk import Dither, Log
 import sys
 import markdown
 from pathlib import Path
