@@ -34,11 +34,12 @@ def process_markdown(html_template, markdown_file):
 
     # Replace image references
     images = re.findall("([-\w]+\.(?:jpg|gif|png|jpeg))", output_html, re.IGNORECASE)
-    Log.salmon('Images: %s' % images)
 
-    for image_ref in images:
-        processed_filename = '%s%s' % (DITHER_PREFIX, image_ref)
-        output_html = output_html.replace(image_ref, processed_filename)
+    if len(images) > 0:
+        # Log.salmon('images:      %s' % images)
+        for image_ref in images:
+            processed_filename = '%s%s' % (DITHER_PREFIX, image_ref)
+            output_html = output_html.replace(image_ref, processed_filename)
 
     output_file.write_text(output_html)
 
