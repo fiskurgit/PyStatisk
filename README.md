@@ -24,8 +24,6 @@ A Python port of the Kotlin [Statisk](https://github.com/fiskurgit/Statisk) proj
 </html>
 ```
 
-__Note.__ `{{ title }}` not implemented yet.
-
 ## Blog Structure
 Markdown posts need to be in a Year/Month/Day (`YYYY/MM/DD`) structure inside a root `posts/` directory:
 <pre style="font-family: monospace;">

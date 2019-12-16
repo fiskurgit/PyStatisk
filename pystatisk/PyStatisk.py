@@ -52,6 +52,20 @@ def process_images(directory, config_str):
     return image_bytes
 
 
+# Assumes markdown header in format: # SomeHeader
+def extract_title(content):
+    meta_data_index = content.find('-->')
+
+    if meta_data_index is not -1:
+        title = content[(meta_data_index + 3):].strip()
+    else:
+        title = content
+
+    key_index = title.find('#')
+    title = title[(key_index + 2):]
+    return title.split('\n')[0]
+
+
 def process_markdown(html_template, markdown_file):
     Log.line_break()
     Log.salmon('processing:  %s' % markdown_file)
@@ -67,6 +81,9 @@ def process_markdown(html_template, markdown_file):
 
     html = markdown.markdown(md_content)
     output_html = html_template.replace("{{ content }}", html)
+
+    title = extract_title(md_content)
+    output_html = output_html.replace('{{ title }}', title)
 
     # Page background colour override
     if config_str.__contains__("-bg") or config_str.__contains__("-background"):
