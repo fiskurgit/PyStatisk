@@ -3,6 +3,8 @@
 
 A Python port of the Kotlin [Statisk](https://github.com/fiskurgit/Statisk) project, designed to run on low power devices (RaspberryPi Zero). Converts Markdown files to simple Html with image size reduction for extreme low-bandwidth web pages.
 
+![](assets/website_screenshot.png)
+
 ## Setup
 
 `_template.html` should be placed in root directory of the website, simple example:
