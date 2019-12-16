@@ -8,6 +8,16 @@ from pathlib import Path
 DITHER_PREFIX = "p_"
 
 
+# Lazily copied from https://stackoverflow.com/a/32009595/7641428
+def bytes_label(size, precision=2):
+    suffixes = [' bytes', 'kb', 'mb', 'gb', 'tb']
+    suffix_index = 0
+    while size > 1024 and suffix_index < 4:
+        suffix_index += 1
+        size = size/1024.0
+    return "%.*f%s" % (precision, size, suffixes[suffix_index])
+
+
 # Assumes data is in format '-some_key some_value -some_other_key another_value'
 def get_value(meta_data, key, show_log):
     key_index = meta_data.find(key)
@@ -24,6 +34,7 @@ def get_value(meta_data, key, show_log):
 def process_images(directory, config_str):
     Log.salmon('Post config data: %s' % config_str)
     files = directory.glob('*')
+    image_bytes = 0
     for file_name in files:
         file = Path(file_name)
         if not str(file.name).startswith(DITHER_PREFIX) and \
@@ -31,7 +42,14 @@ def process_images(directory, config_str):
                 file.name.endswith(".jpg") or \
                 file.name.endswith(".png"):
             Log.blue('dithering:   %s' % file)
-            Dither.filter_stucki(file, 185, DITHER_PREFIX)
+            output_filename = Path(file.parent, '%s%s' % (DITHER_PREFIX, file.name))
+            Dither.filter_stucki(file, 185, output_filename)
+            statinfo = os.stat(output_filename)
+            size = statinfo.st_size
+            Log.red('Image size: ' + str(size))
+            image_bytes = image_bytes + size
+
+    return image_bytes
 
 
 def process_markdown(html_template, markdown_file):
@@ -68,9 +86,13 @@ def process_markdown(html_template, markdown_file):
             processed_filename = '%s%s' % (DITHER_PREFIX, image_ref)
             output_html = output_html.replace(image_ref, processed_filename)
 
-    output_file.write_text(output_html)
+    # Calculate html size
+    page_bytes = len(output_html.encode('utf-8'))
+    image_bytes = process_images(markdown_file.parent, config_str)
+    output_html = output_html.replace('{{ page_size }}',
+                                      str('Page size including images: ' + bytes_label(image_bytes + page_bytes, 0)))
 
-    process_images(markdown_file.parent, config_str)
+    output_file.write_text(output_html)
 
 
 def process_posts(template, posts_directory):

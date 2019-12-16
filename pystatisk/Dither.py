@@ -7,7 +7,7 @@ def gray_value(r, g, b):
     return 0.2989 * r + 0.5870 * g + 0.1140 * b
 
 
-def filter_2x2_bayer(image_file, threshold, output_prefix):
+def filter_2x2_bayer(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
@@ -28,11 +28,11 @@ def filter_2x2_bayer(image_file, threshold, output_prefix):
             else:
                 filtered_image[x, y] = (255, 255, 255)
 
-    output_filename = Path(image_file.parent, '%s%s' % (output_prefix, image_file.name))
     image_copy.save(output_filename)
+    return output_filename
 
 
-def filter_3x3_bayer(image_file, threshold, output_prefix):
+def filter_3x3_bayer(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
@@ -53,11 +53,11 @@ def filter_3x3_bayer(image_file, threshold, output_prefix):
             else:
                 filtered_image[x, y] = (255, 255, 255)
 
-    output_filename = Path(image_file.parent, '%s%s' % (output_prefix, image_file.name))
     image_copy.save(output_filename)
+    return output_filename
 
 
-def filter_4x4_bayer(image_file, threshold, output_prefix):
+def filter_4x4_bayer(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
@@ -78,11 +78,11 @@ def filter_4x4_bayer(image_file, threshold, output_prefix):
             else:
                 filtered_image[x, y] = (255, 255, 255)
 
-    output_filename = Path(image_file.parent, '%s%s' % (output_prefix, image_file.name))
     image_copy.save(output_filename)
+    return output_filename
 
 
-def filter_5x3_bayer(image_file, threshold, output_prefix):
+def filter_5x3_bayer(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
@@ -107,11 +107,11 @@ def filter_5x3_bayer(image_file, threshold, output_prefix):
             else:
                 filtered_image[x, y] = (255, 255, 255)
 
-    output_filename = Path(image_file.parent, '%s%s' % (output_prefix, image_file.name))
     image_copy.save(output_filename)
+    return output_filename
 
 
-def filter_8x8_bayer(image_file, threshold, output_prefix):
+def filter_8x8_bayer(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
@@ -139,11 +139,11 @@ def filter_8x8_bayer(image_file, threshold, output_prefix):
             else:
                 filtered_image[x, y] = (255, 255, 255)
 
-    output_filename = Path(image_file.parent, '%s%s' % (output_prefix, image_file.name))
     image_copy.save(output_filename)
+    return output_filename
 
 
-def filter_floyd_steinberg(image_file, threshold, output_prefix):
+def filter_floyd_steinberg(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
@@ -169,11 +169,11 @@ def filter_floyd_steinberg(image_file, threshold, output_prefix):
             errors[x][y + 1] += 5 * error / 16
             errors[x + 1][y + 1] += 1 * error / 16
 
-    output_filename = Path(image_file.parent, '%s%s' % (output_prefix, image_file.name))
     image_copy.save(output_filename)
+    return output_filename
 
 
-def filter_jarvis_judice_ninke(image_file, threshold, output_prefix):
+def filter_jarvis_judice_ninke(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
@@ -209,11 +209,11 @@ def filter_jarvis_judice_ninke(image_file, threshold, output_prefix):
             errors[x + 1][y + 2] += 3 * error / 48
             errors[x + 2][y + 2] += 1 * error / 48
 
-    output_filename = Path(image_file.parent, '%s%s' % (output_prefix, image_file.name))
     image_copy.save(output_filename)
+    return output_filename
 
 
-def filter_sierra(image_file, threshold, output_prefix):
+def filter_sierra(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
@@ -247,11 +247,11 @@ def filter_sierra(image_file, threshold, output_prefix):
             errors[x][y + 2] += 3 * error / 32
             errors[x + 1][y + 2] += 2 * error / 32
 
-    output_filename = Path(image_file.parent, '%s%s' % (output_prefix, image_file.name))
     image_copy.save(output_filename)
+    return output_filename
 
 
-def filter_two_row_sierra(image_file, threshold, output_prefix):
+def filter_two_row_sierra(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
@@ -281,11 +281,11 @@ def filter_two_row_sierra(image_file, threshold, output_prefix):
             errors[x + 1][y + 1] += 2 * error / 16
             errors[x + 2][y + 1] += 1 * error / 16
 
-    output_filename = Path(image_file.parent, '%s%s' % (output_prefix, image_file.name))
     image_copy.save(output_filename)
+    return output_filename
 
 
-def filter_stucki(image_file, threshold, output_prefix):
+def filter_stucki(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
@@ -321,11 +321,11 @@ def filter_stucki(image_file, threshold, output_prefix):
             errors[x + 1][y + 2] += 2 * error / 42
             errors[x + 2][y + 2] += 1 * error / 42
 
-    output_filename = Path(image_file.parent, '%s%s' % (output_prefix, image_file.name))
     image_copy.save(output_filename)
+    return output_filename
 
 
-def filter_atkinson(image_file, threshold, output_prefix):
+def filter_atkinson(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
@@ -355,11 +355,11 @@ def filter_atkinson(image_file, threshold, output_prefix):
 
             errors[x][y + 2] += error / 8
 
-    output_filename = Path(image_file.parent, '%s%s' % (output_prefix, image_file.name))
     image_copy.save(output_filename)
+    return output_filename
 
 
-def filter_left_to_right_error_diffusion(image_file, threshold, output_prefix):
+def filter_left_to_right_error_diffusion(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
@@ -384,11 +384,11 @@ def filter_left_to_right_error_diffusion(image_file, threshold, output_prefix):
 
             error += delta
 
-    output_filename = Path(image_file.parent, '%s%s' % (output_prefix, image_file.name))
     image_copy.save(output_filename)
+    return output_filename
 
 
-def filter_random(image_file, threshold, output_prefix):
+def filter_random(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
@@ -406,11 +406,11 @@ def filter_random(image_file, threshold, output_prefix):
             else:
                 filtered_image[x, y] = (255, 255, 255)
 
-    output_filename = Path(image_file.parent, '%s%s' % (output_prefix, image_file.name))
     image_copy.save(output_filename)
+    return output_filename
 
 
-def filter_threshold(image_file, threshold, output_prefix):
+def filter_threshold(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
@@ -426,6 +426,6 @@ def filter_threshold(image_file, threshold, output_prefix):
             else:
                 filtered_image[x, y] = (255, 255, 255)
 
-    output_filename = Path(image_file.parent, '%s%s' % (output_prefix, image_file.name))
     image_copy.save(output_filename)
+    return output_filename
 
