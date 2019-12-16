@@ -50,6 +50,7 @@ def process_markdown(html_template, markdown_file):
     html = markdown.markdown(md_content)
     output_html = html_template.replace("{{ content }}", html)
 
+    # Page background colour override
     if config_str.__contains__("-bg") or config_str.__contains__("-background"):
         background_color = get_value(config_str, "-bg", False)
         if background_color is None:
@@ -69,7 +70,6 @@ def process_markdown(html_template, markdown_file):
 
     output_file.write_text(output_html)
 
-
     process_images(markdown_file.parent, config_str)
 
 
@@ -86,7 +86,10 @@ def process_path(root):
         posts_directory = Path(root, 'posts')
         if posts_directory.exists():
             Log.blue('%s exists...' % posts_directory)
-            html_template = open(template).read()
+            template_stream = open(template)
+            html_template = template_stream.read()
+            template_stream.close()
+
             process_posts(html_template, posts_directory)
         else:
             Log.fatal_error('missing posts/ directory')
