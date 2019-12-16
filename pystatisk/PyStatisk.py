@@ -1,14 +1,28 @@
 import re
-
 from pystatisk import Dither, Log
 import sys
+import os
 import markdown
 from pathlib import Path
 
 DITHER_PREFIX = "p_"
 
 
-def process_images(directory):
+# Assumes data is in format '-some_key some_value -some_other_key another_value'
+def get_value(meta_data, key, show_log):
+    key_index = meta_data.find(key)
+    if key_index == -1:
+        if show_log:
+            Log.error('Key {0} does not exist in {1}'.format(key, meta_data))
+        return None
+    else:
+        data_index = key_index + len(key) + 1
+        post_data = meta_data[data_index:]
+        return post_data.split(' ')[0]
+
+
+def process_images(directory, config_str):
+    Log.salmon('Post config data: %s' % config_str)
     files = directory.glob('*')
     for file_name in files:
         file = Path(file_name)
@@ -28,9 +42,21 @@ def process_markdown(html_template, markdown_file):
     output_file = Path(markdown_file.parent, output_filename)
     Log.purple('output file: %s' % output_file)
 
-    md_content = open(markdown_file)
-    html = markdown.markdown(md_content.read())
+    md_stream = open(markdown_file)
+    md_content = md_stream.read()
+    config_str = md_content.split('\n', 1)[0]
+    md_stream.close()
+
+    html = markdown.markdown(md_content)
     output_html = html_template.replace("{{ content }}", html)
+
+    if config_str.__contains__("-bg") or config_str.__contains__("-background"):
+        background_color = get_value(config_str, "-bg", False)
+        if background_color is None:
+            background_color = get_value(config_str, "-background", False)
+
+        Log.red("Override page background colour: %s" % background_color)
+        output_html = output_html.replace('<body', str('<body style="background-color:%s"' % background_color))
 
     # Replace image references
     images = re.findall("([-\w]+\.(?:jpg|gif|png|jpeg))", output_html, re.IGNORECASE)
@@ -43,11 +69,12 @@ def process_markdown(html_template, markdown_file):
 
     output_file.write_text(output_html)
 
-    process_images(markdown_file.parent)
+
+    process_images(markdown_file.parent, config_str)
 
 
-def process_posts(template, posts):
-    markdown_files = Path(posts).glob('**/*/*.md')
+def process_posts(template, posts_directory):
+    markdown_files = Path(posts_directory).glob('**/*/*.md')
     for md in markdown_files:
         process_markdown(template, md)
 
@@ -76,12 +103,16 @@ if __name__ == '__main__':
     if argumentCount == 1:
         Log.fatal_error("no path argument")
 
+    cwd = os.getcwd()
+    Log.blue('Working dir: %s' % cwd)
+
     arguments = list(sys.argv)
     pathInput = arguments[1]
     websiteRoot = Path(pathInput)
 
     if websiteRoot.exists():
-        Log.blue('%s exists...' % pathInput)
+        Log.blue('%s exists...' % websiteRoot)
         process_path(websiteRoot)
     else:
-        Log.fatal_error('path cannot be found')
+        Log.fatal_error('%s cannot be found' % websiteRoot)
+
