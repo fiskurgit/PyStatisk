@@ -1,17 +1,42 @@
 from PIL import Image
-from pathlib import Path
+from pystatisk import Log
 import random
+
+MAX_WIDTH = 960
 
 
 def gray_value(r, g, b):
     return 0.2989 * r + 0.5870 * g + 0.1140 * b
 
 
+# Just resizes the image, no filter
+def filter_dummy(image_file, threshold, output_filename):
+    source_image = Image.open(image_file).convert("RGB")
+    width, height = source_image.size
+
+    if width > MAX_WIDTH:
+        width_ratio = (MAX_WIDTH / float(width))
+        resize_height = int((float(height) * float(width_ratio)))
+        source_image = source_image.resize((MAX_WIDTH, resize_height), Image.LANCZOS)
+
+    image_copy = source_image.copy()
+    image_copy.save(output_filename)
+    return output_filename
+
+
 def filter_2x2_bayer(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
+    width, height = source_image.size
+
+    if width > MAX_WIDTH:
+        width_ratio = (MAX_WIDTH / float(width))
+        resize_height = int((float(height) * float(width_ratio)))
+        source_image = source_image.resize((MAX_WIDTH, resize_height), Image.LANCZOS)
+        width = MAX_WIDTH
+        height = resize_height
+
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
-    width, height = source_image.size
 
     matrix = [[1, 3], [4, 2]]
 
@@ -34,9 +59,17 @@ def filter_2x2_bayer(image_file, threshold, output_filename):
 
 def filter_3x3_bayer(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
+    width, height = source_image.size
+
+    if width > MAX_WIDTH:
+        width_ratio = (MAX_WIDTH / float(width))
+        resize_height = int((float(height) * float(width_ratio)))
+        source_image = source_image.resize((MAX_WIDTH, resize_height), Image.LANCZOS)
+        width = MAX_WIDTH
+        height = resize_height
+
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
-    width, height = source_image.size
 
     matrix = [[3, 7, 4], [6, 1, 9], [2, 8, 5]]
 
@@ -59,9 +92,17 @@ def filter_3x3_bayer(image_file, threshold, output_filename):
 
 def filter_4x4_bayer(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
+    width, height = source_image.size
+
+    if width > MAX_WIDTH:
+        width_ratio = (MAX_WIDTH / float(width))
+        resize_height = int((float(height) * float(width_ratio)))
+        source_image = source_image.resize((MAX_WIDTH, resize_height), Image.LANCZOS)
+        width = MAX_WIDTH
+        height = resize_height
+
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
-    width, height = source_image.size
 
     matrix = [[1, 9, 3, 11], [13, 5, 15, 7], [4, 12, 2, 10], [16, 8, 14, 6]]
 
@@ -84,9 +125,17 @@ def filter_4x4_bayer(image_file, threshold, output_filename):
 
 def filter_5x3_bayer(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
+    width, height = source_image.size
+
+    if width > MAX_WIDTH:
+        width_ratio = (MAX_WIDTH / float(width))
+        resize_height = int((float(height) * float(width_ratio)))
+        source_image = source_image.resize((MAX_WIDTH, resize_height), Image.LANCZOS)
+        width = MAX_WIDTH
+        height = resize_height
+
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
-    width, height = source_image.size
 
     matrix = [[9, 3, 0, 6, 12], [10, 4, 1, 7, 13], [11, 5, 2, 8, 14]]
 
@@ -113,9 +162,17 @@ def filter_5x3_bayer(image_file, threshold, output_filename):
 
 def filter_8x8_bayer(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
+    width, height = source_image.size
+
+    if width > MAX_WIDTH:
+        width_ratio = (MAX_WIDTH / float(width))
+        resize_height = int((float(height) * float(width_ratio)))
+        source_image = source_image.resize((MAX_WIDTH, resize_height), Image.LANCZOS)
+        width = MAX_WIDTH
+        height = resize_height
+
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
-    width, height = source_image.size
 
     matrix = [[24, 10, 12, 26, 35, 47, 49, 37],
               [8, 0, 2, 14, 45, 59, 61, 51],
@@ -145,9 +202,17 @@ def filter_8x8_bayer(image_file, threshold, output_filename):
 
 def filter_floyd_steinberg(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
+    width, height = source_image.size
+
+    if width > MAX_WIDTH:
+        width_ratio = (MAX_WIDTH / float(width))
+        resize_height = int((float(height) * float(width_ratio)))
+        source_image = source_image.resize((MAX_WIDTH, resize_height), Image.LANCZOS)
+        width = MAX_WIDTH
+        height = resize_height
+
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
-    width, height = source_image.size
 
     errors = [[0 for x in range(width)] for y in range(height)]
 
@@ -175,9 +240,17 @@ def filter_floyd_steinberg(image_file, threshold, output_filename):
 
 def filter_jarvis_judice_ninke(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
+    width, height = source_image.size
+
+    if width > MAX_WIDTH:
+        width_ratio = (MAX_WIDTH / float(width))
+        resize_height = int((float(height) * float(width_ratio)))
+        source_image = source_image.resize((MAX_WIDTH, resize_height), Image.LANCZOS)
+        width = MAX_WIDTH
+        height = resize_height
+
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
-    width, height = source_image.size
 
     errors = [[0 for x in range(width)] for y in range(height)]
 
@@ -215,9 +288,17 @@ def filter_jarvis_judice_ninke(image_file, threshold, output_filename):
 
 def filter_sierra(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
+    width, height = source_image.size
+
+    if width > MAX_WIDTH:
+        width_ratio = (MAX_WIDTH / float(width))
+        resize_height = int((float(height) * float(width_ratio)))
+        source_image = source_image.resize((MAX_WIDTH, resize_height), Image.LANCZOS)
+        width = MAX_WIDTH
+        height = resize_height
+
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
-    width, height = source_image.size
 
     errors = [[0 for y in range(height)] for x in range(width)]
 
@@ -253,9 +334,17 @@ def filter_sierra(image_file, threshold, output_filename):
 
 def filter_two_row_sierra(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
+    width, height = source_image.size
+
+    if width > MAX_WIDTH:
+        width_ratio = (MAX_WIDTH / float(width))
+        resize_height = int((float(height) * float(width_ratio)))
+        source_image = source_image.resize((MAX_WIDTH, resize_height), Image.LANCZOS)
+        width = MAX_WIDTH
+        height = resize_height
+
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
-    width, height = source_image.size
 
     errors = [[0 for y in range(height)] for x in range(width)]
 
@@ -287,9 +376,17 @@ def filter_two_row_sierra(image_file, threshold, output_filename):
 
 def filter_stucki(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
+    width, height = source_image.size
+
+    if width > MAX_WIDTH:
+        width_ratio = (MAX_WIDTH / float(width))
+        resize_height = int((float(height) * float(width_ratio)))
+        source_image = source_image.resize((MAX_WIDTH, resize_height), Image.LANCZOS)
+        width = MAX_WIDTH
+        height = resize_height
+
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
-    width, height = source_image.size
 
     errors = [[0 for y in range(height)] for x in range(width)]
 
@@ -327,9 +424,17 @@ def filter_stucki(image_file, threshold, output_filename):
 
 def filter_atkinson(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
+    width, height = source_image.size
+
+    if width > MAX_WIDTH:
+        width_ratio = (MAX_WIDTH / float(width))
+        resize_height = int((float(height) * float(width_ratio)))
+        source_image = source_image.resize((MAX_WIDTH, resize_height), Image.LANCZOS)
+        width = MAX_WIDTH
+        height = resize_height
+
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
-    width, height = source_image.size
 
     errors = [[0 for y in range(height)] for x in range(width)]
 
@@ -361,9 +466,17 @@ def filter_atkinson(image_file, threshold, output_filename):
 
 def filter_left_to_right_error_diffusion(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
+    width, height = source_image.size
+
+    if width > MAX_WIDTH:
+        width_ratio = (MAX_WIDTH / float(width))
+        resize_height = int((float(height) * float(width_ratio)))
+        source_image = source_image.resize((MAX_WIDTH, resize_height), Image.LANCZOS)
+        width = MAX_WIDTH
+        height = resize_height
+
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
-    width, height = source_image.size
 
     for y in range(height):
         error = 0
@@ -390,9 +503,17 @@ def filter_left_to_right_error_diffusion(image_file, threshold, output_filename)
 
 def filter_random(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
+    width, height = source_image.size
+
+    if width > MAX_WIDTH:
+        width_ratio = (MAX_WIDTH / float(width))
+        resize_height = int((float(height) * float(width_ratio)))
+        source_image = source_image.resize((MAX_WIDTH, resize_height), Image.LANCZOS)
+        width = MAX_WIDTH
+        height = resize_height
+
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
-    width, height = source_image.size
 
     for y in range(height):
         for x in range(width):
@@ -412,9 +533,17 @@ def filter_random(image_file, threshold, output_filename):
 
 def filter_threshold(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
+    width, height = source_image.size
+
+    if width > MAX_WIDTH:
+        width_ratio = (MAX_WIDTH / float(width))
+        resize_height = int((float(height) * float(width_ratio)))
+        source_image = source_image.resize((MAX_WIDTH, resize_height), Image.LANCZOS)
+        width = MAX_WIDTH
+        height = resize_height
+
     image_copy = source_image.copy()
     filtered_image = image_copy.load()
-    width, height = source_image.size
 
     for y in range(height):
         for x in range(width):
@@ -428,4 +557,31 @@ def filter_threshold(image_file, threshold, output_filename):
 
     image_copy.save(output_filename)
     return output_filename
+
+
+def filter_from_name(image_file, threshold, output_filename, filter_name):
+    if filter_name is "2by2bayer":
+        filter_2x2_bayer(image_file, threshold, output_filename)
+    elif filter_name is "3by3bayer":
+        filter_3x3_bayer(image_file, threshold, output_filename)
+    elif filter_name is "4by4bayer":
+        filter_4x4_bayer(image_file, threshold, output_filename)
+    elif filter_name is "5by3bayer":
+        filter_5x3_bayer(image_file, threshold, output_filename)
+    elif filter_name is "8by8bayer":
+        filter_8x8_bayer(image_file, threshold, output_filename)
+    elif filter_name is "floydsteinberg":
+        filter_floyd_steinberg(image_file, threshold, output_filename)
+    elif filter_name is "jarvisjudiceninke":
+        filter_jarvis_judice_ninke(image_file, threshold, output_filename)
+    elif filter_name is "atkinson":
+        filter_atkinson(image_file, threshold, output_filename)
+    elif filter_name is "threshold":
+        filter_threshold(image_file, threshold, output_filename)
+    elif filter_name is "random":
+        filter_random(image_file, threshold, output_filename)
+    elif filter_name is "stucki":
+        filter_stucki(image_file, threshold, output_filename)
+    else:
+        Log.fatal_error("Unrecognised filter: %s" % filter_name)
 

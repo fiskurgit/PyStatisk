@@ -32,7 +32,7 @@ def get_value(meta_data, key, show_log):
 
 
 def process_images(directory, config_str):
-    Log.salmon('Post config data: %s' % config_str)
+    Log.blue('post config: %s' % config_str)
     files = directory.glob('*')
     image_bytes = 0
     for file_name in files:
@@ -41,12 +41,19 @@ def process_images(directory, config_str):
                 file.name.endswith(".jpeg") or \
                 file.name.endswith(".jpg") or \
                 file.name.endswith(".png"):
-            Log.blue('dithering:   %s' % file)
+            Log.blue('processing:   %s' % file)
             output_filename = Path(file.parent, '%s%s' % (DITHER_PREFIX, file.name))
-            Dither.filter_stucki(file, 185, output_filename)
-            statinfo = os.stat(output_filename)
-            size = statinfo.st_size
-            Log.red('Image size: ' + str(size))
+
+            filter_name = get_value(config_str, '-algorithm', False)
+
+            if filter_name is not None:
+                Dither.filter_from_name(file, 185, output_filename, filter_name)
+            else:
+                # No filter name supplied in config header data so just resize to max width
+                Dither.filter_dummy(file, 185, output_filename)
+
+            stat_info = os.stat(output_filename)
+            size = stat_info.st_size
             image_bytes = image_bytes + size
 
     return image_bytes
@@ -72,7 +79,7 @@ def process_markdown(html_template, markdown_file):
 
     output_filename = markdown_file.name.replace(".md", ".html")
     output_file = Path(markdown_file.parent, output_filename)
-    Log.purple('output file: %s' % output_file)
+    Log.blue('output file: %s' % output_file)
 
     md_stream = open(markdown_file)
     md_content = md_stream.read()
@@ -91,7 +98,7 @@ def process_markdown(html_template, markdown_file):
         if background_color is None:
             background_color = get_value(config_str, "-background", False)
 
-        Log.red("Override page background colour: %s" % background_color)
+        Log.blue("override page background: %s" % background_color)
         output_html = output_html.replace('<body', str('<body style="background-color:%s"' % background_color))
 
     # Replace image references
