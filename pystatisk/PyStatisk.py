@@ -45,12 +45,16 @@ def process_images(directory, config_str):
             output_filename = Path(file.parent, '%s%s' % (DITHER_PREFIX, file.name))
 
             filter_name = get_value(config_str, '-algorithm', False)
+            threshold_value = get_value(config_str, '-threshold', False)
+
+            if threshold_value is None:
+                threshold_value = 255
 
             if filter_name is not None:
-                Dither.filter_from_name(file, 185, output_filename, filter_name)
+                Dither.filter_from_name(file, threshold_value, output_filename, filter_name)
             else:
                 # No filter name supplied in config header data so just resize to max width
-                Dither.filter_dummy(file, 185, output_filename)
+                Dither.filter_dummy(file, 0, output_filename)
 
             stat_info = os.stat(output_filename)
             size = stat_info.st_size
