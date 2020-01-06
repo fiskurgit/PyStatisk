@@ -1,4 +1,4 @@
-from pystatisk import Log
+from statisk import Log
 
 
 def test_title(capsys):

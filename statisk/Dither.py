@@ -1,5 +1,5 @@
 from PIL import Image
-from pystatisk import Log
+from statisk import Log
 import random
 
 MAX_WIDTH = 960

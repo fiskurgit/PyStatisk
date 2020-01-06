@@ -1,9 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
-    name='PyStatisk',
-    version='0.0.2',
-    packages=['pystatisk'],
+    name='Statisk',
+    version='0.0.10',
+    packages=find_packages(),
     url='https://github.com/fiskurgit/PyStatisk',
     license='GNU General Public License v3.0',
     author='fiskurgit',
@@ -12,7 +12,7 @@ setup(
     python_requires='>=3', install_requires=['markdown', 'termcolor', 'Pillow'],
     entry_points={
         'console_scripts': [
-            'pystatisk = PyStatisk:main',
+            'stsk = statisk.PyStatisk:main'
         ],
     }
 )

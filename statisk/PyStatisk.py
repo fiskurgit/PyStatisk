@@ -1,5 +1,5 @@
 import re
-from pystatisk import Dither, Log
+from statisk import Dither, Log
 import sys
 import os
 import markdown
@@ -147,25 +147,28 @@ def process_path(root):
         Log.fatal_error('missing _template.html')
 
 
-if __name__ == '__main__':
+def entry():
     Log.title()
     Log.blue("PyStatisk")
 
-    argumentCount = len(sys.argv)
+    argument_count = len(sys.argv)
 
-    if argumentCount == 1:
+    if argument_count == 1:
         Log.fatal_error("no path argument")
 
     cwd = os.getcwd()
     Log.blue('Working dir: %s' % cwd)
 
     arguments = list(sys.argv)
-    pathInput = arguments[1]
-    websiteRoot = Path(pathInput)
+    path_input = arguments[1]
+    website_root = Path(path_input)
 
-    if websiteRoot.exists():
-        Log.blue('%s exists...' % websiteRoot)
-        process_path(websiteRoot)
+    if website_root.exists():
+        Log.blue('%s exists...' % website_root)
+        process_path(website_root)
     else:
-        Log.fatal_error('%s cannot be found' % websiteRoot)
+        Log.fatal_error('%s cannot be found' % website_root)
 
+
+if __name__ == "__main__":
+    entry()
