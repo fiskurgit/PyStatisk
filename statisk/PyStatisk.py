@@ -1,5 +1,5 @@
 import re
-from statisk import Dither, Log
+from statisk import ImageFilter, Log
 import sys
 import os
 import markdown
@@ -51,10 +51,10 @@ def process_images(directory, config_str):
                 threshold_value = 255
 
             if filter_name is not None:
-                Dither.filter_from_name(file, threshold_value, output_filename, filter_name)
+                ImageFilter.filter_from_name(file, threshold_value, output_filename, filter_name)
             else:
                 # No filter name supplied in config header data so just resize to max width
-                Dither.filter_dummy(file, 0, output_filename)
+                ImageFilter.filter_dummy(file, 0, output_filename)
 
             stat_info = os.stat(output_filename)
             size = stat_info.st_size

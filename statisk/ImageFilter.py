@@ -24,6 +24,24 @@ def filter_dummy(image_file, threshold, output_filename):
     return output_filename
 
 
+def filter_greyscale(image_file, threshold, output_filename):
+    source_image = Image.open(image_file).convert("L")
+    width, height = source_image.size
+
+    if width > MAX_WIDTH:
+        width_ratio = (MAX_WIDTH / float(width))
+        resize_height = int((float(height) * float(width_ratio)))
+        source_image = source_image.resize((MAX_WIDTH, resize_height), Image.LANCZOS)
+        width = MAX_WIDTH
+        height = resize_height
+
+    image_copy = source_image.copy()
+    filtered_image = image_copy.load()
+
+    image_copy.save(output_filename)
+    return output_filename
+
+
 def filter_2x2_bayer(image_file, threshold, output_filename):
     source_image = Image.open(image_file).convert("RGB")
     width, height = source_image.size
@@ -560,27 +578,29 @@ def filter_threshold(image_file, threshold, output_filename):
 
 
 def filter_from_name(image_file, threshold, output_filename, filter_name):
-    if filter_name is "2by2bayer":
+    if filter_name == "greyscale":
+        filter_greyscale(image_file, threshold, output_filename)
+    elif filter_name == "2by2bayer":
         filter_2x2_bayer(image_file, threshold, output_filename)
-    elif filter_name is "3by3bayer":
+    elif filter_name == "3by3bayer":
         filter_3x3_bayer(image_file, threshold, output_filename)
-    elif filter_name is "4by4bayer":
+    elif filter_name == "4by4bayer":
         filter_4x4_bayer(image_file, threshold, output_filename)
-    elif filter_name is "5by3bayer":
+    elif filter_name == "5by3bayer":
         filter_5x3_bayer(image_file, threshold, output_filename)
-    elif filter_name is "8by8bayer":
+    elif filter_name == "8by8bayer":
         filter_8x8_bayer(image_file, threshold, output_filename)
-    elif filter_name is "floydsteinberg":
+    elif filter_name == "floydsteinberg":
         filter_floyd_steinberg(image_file, threshold, output_filename)
-    elif filter_name is "jarvisjudiceninke":
+    elif filter_name == "jarvisjudiceninke":
         filter_jarvis_judice_ninke(image_file, threshold, output_filename)
-    elif filter_name is "atkinson":
+    elif filter_name == "atkinson":
         filter_atkinson(image_file, threshold, output_filename)
-    elif filter_name is "threshold":
+    elif filter_name == "threshold":
         filter_threshold(image_file, threshold, output_filename)
-    elif filter_name is "random":
+    elif filter_name == "random":
         filter_random(image_file, threshold, output_filename)
-    elif filter_name is "stucki":
+    elif filter_name == "stucki":
         filter_stucki(image_file, threshold, output_filename)
     else:
         Log.fatal_error("Unrecognised filter: %s" % filter_name)
