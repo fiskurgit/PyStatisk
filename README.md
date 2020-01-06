@@ -1,9 +1,9 @@
-![PyStatisk Ascii Logo](assets/ascii_logo.png)
+![PyStatisk Ascii Logo](https://raw.githubusercontent.com/fiskurgit/PyStatisk/master/assets/ascii_logo.png)
 ## PyStatisk
 
 A Python port of the Kotlin [Statisk](https://github.com/fiskurgit/Statisk) project, designed to run on low power devices (RaspberryPi Zero). Converts Markdown files to simple Html with image size reduction for extreme low-bandwidth web pages.
 
-![](assets/website_screenshot.png)
+![](https://raw.githubusercontent.com/fiskurgit/PyStatisk/master/assets/website_screenshot.png)
 
 ## Install
 
