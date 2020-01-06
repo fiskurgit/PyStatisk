@@ -5,6 +5,14 @@ A Python port of the Kotlin [Statisk](https://github.com/fiskurgit/Statisk) proj
 
 ![](assets/website_screenshot.png)
 
+## Install
+
+Install via PIP: `https://pypi.org/project/Statisk/` 
+
+`pip install Statisk==0.0.11`
+
+run with `stsk /path/to/blog/`
+
 ## Setup
 
 `_template.html` should be placed in root directory of the website, simple example:
