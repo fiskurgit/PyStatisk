@@ -7,11 +7,13 @@ A Python port of the Kotlin [Statisk](https://github.com/fiskurgit/Statisk) proj
 
 ## Install
 
-Install via PIP: `https://pypi.org/project/Statisk/` 
+Install via [PIP](https://pypi.org/project/Statisk/):
 
 `pip install Statisk`
 
-run with `stsk /path/to/blog/`
+then run with:
+
+`stsk /path/to/blog/`
 
 ## Setup
 

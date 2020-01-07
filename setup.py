@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='Statisk',
-    version='0.0.14',
+    version='0.0.15',
     packages=['statisk'],
     url='https://github.com/fiskurgit/PyStatisk',
     license='GNU General Public License v3.0',
