@@ -55,3 +55,21 @@ Markdown posts need to be in a Year/Month/Day (`YYYY/MM/DD`) structure inside a 
                 |- pictureA.png 
                 |- pictureB.png 
 </pre> 
+
+## Style Parameters
+
+Markdown posts can set parameters to override how images are handled and to set the page background:
+
+| Argument | Behaviour | 
+| --- | --- |
+| `-algorithm` | Sets dither algorithm (see below), eg. `-algorithm stucki` |
+| `-threshold` | Set threshold of dither algorithms in range 0 to 255, eg. `-threshold  255` |
+| `-background` | Override the page background colour, eg. `-background  #efefef` |
+
+### Dithering
+
+Available dithering algorithms (from [DitherKt](https://github.com/fiskurgit/DitherKt)):
+
+`2by2Bayer`, `3by3Bayer`, `4by4Bayer`, `5by3Bayer`, `8by8Bayer`, `FloydSteinberg`, `FalseFloydSteinberg`, `NewspaperHalftone`, `JarvisJudiceNinke`, `Sierra`, `SierraLite`, `TwoRowSierra`, `Burkes`, `Atkinson`, `Stucki`, `ErrorDif`, `Threshold`, `Random`
+
+there's also a `greyscale` filter (`-algorithm greyscale`), threshold is ignored.
