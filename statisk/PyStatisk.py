@@ -79,7 +79,7 @@ def extract_title(content):
 
 def process_markdown(html_template, markdown_file):
     Log.line_break()
-    Log.salmon('processing:  %s' % markdown_file)
+    Log.green('processing:  %s' % markdown_file)
 
     output_filename = markdown_file.name.replace(".md", ".html")
     output_file = Path(markdown_file.parent, output_filename)
@@ -132,10 +132,10 @@ def process_posts(template, posts_directory):
 def process_path(root):
     template = Path(root, '_template.html')
     if template.exists():
-        Log.blue('%s exists...' % template)
+        Log.grey('%s exists...' % template)
         posts_directory = Path(root, 'posts')
         if posts_directory.exists():
-            Log.blue('%s exists...' % posts_directory)
+            Log.grey('%s exists...' % posts_directory)
             template_stream = open(template)
             html_template = template_stream.read()
             template_stream.close()
@@ -149,22 +149,18 @@ def process_path(root):
 
 def entry():
     Log.title()
-    Log.blue("PyStatisk")
 
     argument_count = len(sys.argv)
 
     if argument_count == 1:
         Log.fatal_error("no path argument")
 
-    cwd = os.getcwd()
-    Log.blue('Working dir: %s' % cwd)
-
     arguments = list(sys.argv)
     path_input = arguments[1]
     website_root = Path(path_input)
 
     if website_root.exists():
-        Log.blue('%s exists...' % website_root)
+        Log.grey('%s exists...' % website_root)
         process_path(website_root)
     else:
         Log.fatal_error('%s cannot be found' % website_root)
