@@ -99,6 +99,12 @@ def process_markdown(html_template, markdown_file):
 
     output_filename = markdown_file.name.replace(".md", ".html")
     output_file = Path(markdown_file.parent, output_filename)
+
+    post_link = str(output_file)
+    post_segment_index = post_link.index("posts/")
+    post_link = post_link[post_segment_index:]
+    post_links.append(post_link)
+
     Log.blue('output file: %s' % output_file)
 
     md_stream = open(markdown_file)
@@ -110,6 +116,7 @@ def process_markdown(html_template, markdown_file):
     output_html = html_template.replace("{{ content }}", html)
 
     title = extract_title(md_content)
+    post_titles.append(title)
     output_html = output_html.replace('{{ title }}', title)
 
     # Page background colour override
@@ -181,6 +188,15 @@ def entry():
     if website_root.exists():
         Log.grey('%s exists...' % website_root)
         process_path(website_root)
+
+        # All posts should now be built but the index needs creating
+        Log.line_break()
+        Log.grey('Building index...')
+        for index in range(len(post_titles)):
+            post_link = post_links[index]
+            post_title = post_titles[index]
+            Log.grey("post_link: " + post_link + " post_title: " + post_title)
+            # todo - actually build index.html from template
     else:
         Log.fatal_error('%s cannot be found' % website_root)
 
