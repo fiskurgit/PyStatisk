@@ -19,7 +19,9 @@ def error(message):
 
 
 def fatal_error(message):
+    line_break()
     cprint('Fatal Error: %s' % message, 'yellow', 'on_red')
+    line_break()
     exit(-1)
 
 
