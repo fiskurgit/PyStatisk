@@ -3,6 +3,8 @@ from statisk import Log
 import random
 
 MAX_WIDTH = 960
+background = (233, 231, 225)
+foreground = (47, 55, 120)
 
 
 def gray_value(r, g, b):
@@ -464,10 +466,10 @@ def filter_atkinson(image_file, threshold, output_filename):
 
             if gray + errors[x][y] < threshold:
                 error = gray + errors[x][y]
-                filtered_image[x, y] = 0
+                filtered_image[x, y] = foreground
             else:
                 error = gray + errors[x][y] - 255
-                filtered_image[x, y] = (255, 255, 255)
+                filtered_image[x, y] = background
 
             errors[x + 1][y] += error / 8
             errors[x + 2][y] += error / 8
