@@ -3,8 +3,10 @@ from statisk import Log
 import random
 
 MAX_WIDTH = 960
-background = (233, 231, 225)
-foreground = (47, 55, 120)
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+background = WHITE
+foreground = BLACK
 
 
 def gray_value(r, g, b):
