@@ -54,6 +54,15 @@ def process_images(directory, config_str):
                 threshold_value = 255
 
             if filter_name is not None:
+                # We have a filter - but do we have any foreground or background overrides?
+                image_foreground = get_value(config_str, '-image_foreground', False)
+                if image_foreground is not None:
+                    ImageFilter.foreground = tuple(int(image_foreground.lstrip('#')[i:i+2], 16) for i in (0, 2, 4))
+
+                image_background = get_value(config_str, '-image_background', False)
+                if image_background is not None:
+                    ImageFilter.background = tuple(int(image_background.lstrip('#')[i:i + 2], 16) for i in (0, 2, 4))
+
                 ImageFilter.filter_from_name(file, threshold_value, output_filename, filter_name)
             else:
                 # No filter name supplied in config header data so just resize to max width
