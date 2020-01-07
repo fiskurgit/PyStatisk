@@ -7,6 +7,9 @@ from pathlib import Path
 
 DITHER_PREFIX = "p_"
 
+post_links = list()
+post_titles = list()
+
 
 # Lazily copied from https://stackoverflow.com/a/32009595/7641428
 def bytes_label(size, precision=2):
@@ -45,7 +48,7 @@ def process_images(directory, config_str):
             output_filename = Path(file.parent, '%s%s' % (DITHER_PREFIX, file.name))
 
             filter_name = get_value(config_str, '-algorithm', False)
-            threshold_value = get_value(config_str, '-threshold', False)
+            threshold_value = int(get_value(config_str, '-threshold', False))
 
             if threshold_value is None:
                 threshold_value = 255
@@ -149,6 +152,9 @@ def process_path(root):
 
 def entry():
     Log.title()
+
+    post_links.clear()
+    post_titles.clear()
 
     argument_count = len(sys.argv)
 
