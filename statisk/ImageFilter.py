@@ -69,9 +69,9 @@ def filter_2x2_bayer(image_file, threshold, output_filename):
             gray += gray * matrix[x % 2][y % 2] / 5
 
             if gray < threshold:
-                filtered_image[x, y] = 0
+                filtered_image[x, y] = foreground
             else:
-                filtered_image[x, y] = (255, 255, 255)
+                filtered_image[x, y] = background
 
     image_copy.save(output_filename)
     return output_filename
@@ -102,9 +102,9 @@ def filter_3x3_bayer(image_file, threshold, output_filename):
             gray += gray * matrix[x % 3][y % 3] / 10
 
             if gray < threshold:
-                filtered_image[x, y] = 0
+                filtered_image[x, y] = foreground
             else:
-                filtered_image[x, y] = (255, 255, 255)
+                filtered_image[x, y] = background
 
     image_copy.save(output_filename)
     return output_filename
@@ -135,9 +135,9 @@ def filter_4x4_bayer(image_file, threshold, output_filename):
             gray += gray * matrix[x % 4][y % 4] / 17
 
             if gray < threshold:
-                filtered_image[x, y] = 0
+                filtered_image[x, y] = foreground
             else:
-                filtered_image[x, y] = (255, 255, 255)
+                filtered_image[x, y] = background
 
     image_copy.save(output_filename)
     return output_filename
@@ -172,9 +172,9 @@ def filter_5x3_bayer(image_file, threshold, output_filename):
             # gray += gray * matrix[y % 3][x % 5] / 16
 
             if gray < threshold:
-                filtered_image[x, y] = 0
+                filtered_image[x, y] = foreground
             else:
-                filtered_image[x, y] = (255, 255, 255)
+                filtered_image[x, y] = background
 
     image_copy.save(output_filename)
     return output_filename
@@ -212,9 +212,9 @@ def filter_8x8_bayer(image_file, threshold, output_filename):
             gray += gray * matrix[x % 8][y % 8] / 65
 
             if gray < threshold:
-                filtered_image[x, y] = 0
+                filtered_image[x, y] = foreground
             else:
-                filtered_image[x, y] = (255, 255, 255)
+                filtered_image[x, y] = background
 
     image_copy.save(output_filename)
     return output_filename
@@ -244,10 +244,10 @@ def filter_floyd_steinberg(image_file, threshold, output_filename):
 
             if gray + errors[x][y] < threshold:
                 error = gray + errors[x][y]
-                filtered_image[x, y] = 0
+                filtered_image[x, y] = foreground
             else:
                 error = gray + errors[x][y] - 255
-                filtered_image[x, y] = (255, 255, 255)
+                filtered_image[x, y] = background
 
             errors[x + 1][y] += 7 * error / 16
             errors[x - 1][y + 1] += 3 * error / 16
@@ -282,10 +282,10 @@ def filter_jarvis_judice_ninke(image_file, threshold, output_filename):
 
             if gray + errors[x][y] < threshold:
                 error = gray + errors[x][y]
-                filtered_image[x, y] = 0
+                filtered_image[x, y] = foreground
             else:
                 error = gray + errors[x][y] - 255
-                filtered_image[x, y] = (255, 255, 255)
+                filtered_image[x, y] = background
 
             errors[x + 1][y] += 7 * error / 48
             errors[x + 2][y] += 5 * error / 48
@@ -330,10 +330,10 @@ def filter_sierra(image_file, threshold, output_filename):
 
             if gray + errors[x][y] < threshold:
                 error = gray + errors[x][y]
-                filtered_image[x, y] = 0
+                filtered_image[x, y] = foreground
             else:
                 error = gray + errors[x][y] - 255
-                filtered_image[x, y] = (255, 255, 255)
+                filtered_image[x, y] = background
 
             errors[x + 1][y] += 5 * error / 32
             errors[x + 2][y] += 3 * error / 32
@@ -376,10 +376,10 @@ def filter_two_row_sierra(image_file, threshold, output_filename):
 
             if gray + errors[x][y] < threshold:
                 error = gray + errors[x][y]
-                filtered_image[x, y] = 0
+                filtered_image[x, y] = foreground
             else:
                 error = gray + errors[x][y] - 255
-                filtered_image[x, y] = (255, 255, 255)
+                filtered_image[x, y] = background
 
             errors[x + 1][y] += 4 * error / 16
             errors[x + 2][y] += 3 * error / 16
@@ -418,10 +418,10 @@ def filter_stucki(image_file, threshold, output_filename):
 
             if gray + errors[x][y] < threshold:
                 error = gray + errors[x][y]
-                filtered_image[x, y] = 0
+                filtered_image[x, y] = foreground
             else:
                 error = gray + errors[x][y] - 255
-                filtered_image[x, y] = (255, 255, 255)
+                filtered_image[x, y] = background
 
             errors[x + 1][y] += 8 * error / 42
             errors[x + 2][y] += 4 * error / 42
@@ -507,10 +507,10 @@ def filter_left_to_right_error_diffusion(image_file, threshold, output_filename)
 
             if gray + error < threshold:
                 delta = gray
-                filtered_image[x, y] = 0
+                filtered_image[x, y] = foreground
             else:
                 delta = gray - 255
-                filtered_image[x, y] = (255, 255, 255)
+                filtered_image[x, y] = background
 
             if abs(delta) < 10:
                 delta = 0
@@ -543,9 +543,9 @@ def filter_random(image_file, threshold, output_filename):
             threshold = (random.random() * 1000) % 256
 
             if gray < threshold:
-                filtered_image[x, y] = 0
+                filtered_image[x, y] = foreground
             else:
-                filtered_image[x, y] = (255, 255, 255)
+                filtered_image[x, y] = background
 
     image_copy.save(output_filename)
     return output_filename
@@ -571,9 +571,9 @@ def filter_threshold(image_file, threshold, output_filename):
             gray = gray_value(r, g, b)
 
             if gray < threshold:
-                filtered_image[x, y] = 0
+                filtered_image[x, y] = foreground
             else:
-                filtered_image[x, y] = (255, 255, 255)
+                filtered_image[x, y] = background
 
     image_copy.save(output_filename)
     return output_filename
