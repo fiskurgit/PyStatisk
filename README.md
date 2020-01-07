@@ -58,14 +58,16 @@ Markdown posts need to be in a Year/Month/Day (`YYYY/MM/DD`) structure inside a 
 
 ## Style Parameters
 
-Markdown posts can set parameters to override how images are handled and to set the page background:
+Markdown posts can set parameters to override how images are handled and to set the page background, this is done using a hidden comment at the top of the markdown file, eg:
+
+`<!--- -algorithm 5by3Bayer -threshold 100 -background #efefef -image_foreground #002233 -image_background #dedede -->`
 
 | Argument | Behaviour | 
 | --- | --- |
 | `-algorithm` | Sets dither algorithm (see below), eg. `-algorithm stucki` |
 | `-threshold` | Set threshold of dither algorithms in range 0 to 255, eg. `-threshold  255` |
 | `-image_foreground` | (__todo__) Set the foreground colour for dithered images, eg. `-image_foreground  #0e0e0e` |
-| `-image_background` | (__todo__) Set the background colour for dithered images, eg. `-image_background  #efefef` |
+| `-image_background` | (__todo__) Set the background colour for dithered images, eg. `-image_background  #ffcdcd` |
 | `-background` | Override the page background colour, eg. `-background  #efefef` |
 
 ### Dithering
