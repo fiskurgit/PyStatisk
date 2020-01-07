@@ -64,6 +64,8 @@ Markdown posts can set parameters to override how images are handled and to set 
 | --- | --- |
 | `-algorithm` | Sets dither algorithm (see below), eg. `-algorithm stucki` |
 | `-threshold` | Set threshold of dither algorithms in range 0 to 255, eg. `-threshold  255` |
+| `-image_foreground` | (__todo__) Set the foreground colour for dithered images, eg. `-image_foreground  #0e0e0e` |
+| `-image_background` | (__todo__) Set the background colour for dithered images, eg. `-image_background  #efefef` |
 | `-background` | Override the page background colour, eg. `-background  #efefef` |
 
 ### Dithering
