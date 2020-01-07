@@ -100,10 +100,11 @@ def process_markdown(html_template, markdown_file):
     output_filename = markdown_file.name.replace(".md", ".html")
     output_file = Path(markdown_file.parent, output_filename)
 
-    post_link = str(output_file)
-    post_segment_index = post_link.index("posts/")
-    post_link = post_link[post_segment_index:]
-    post_links.append(post_link)
+    if "posts/" in output_filename:
+        post_link = str(output_file)
+        post_segment_index = post_link.index("posts/")
+        post_link = post_link[post_segment_index:]
+        post_links.append(post_link)
 
     Log.blue('output file: %s' % output_file)
 
@@ -116,7 +117,11 @@ def process_markdown(html_template, markdown_file):
     output_html = html_template.replace("{{ content }}", html)
 
     title = extract_title(md_content)
-    post_titles.append(title)
+
+    # Only add title if we're within posts/
+    if "posts/" in output_filename:
+        post_titles.append(title)
+
     output_html = output_html.replace('{{ title }}', title)
 
     # Page background colour override
@@ -164,6 +169,13 @@ def process_path(root):
             template_stream.close()
 
             process_posts(html_template, posts_directory)
+
+            # All posts should now be built but the index needs creating
+            Log.line_break()
+            Log.grey('Building index...')
+            index_md = Path(root, 'index.md')
+            if index_md.exists():
+                process_markdown(html_template, index_md)
         else:
             Log.fatal_error('missing posts/ directory')
     else:
@@ -189,9 +201,7 @@ def entry():
         Log.grey('%s exists...' % website_root)
         process_path(website_root)
 
-        # All posts should now be built but the index needs creating
-        Log.line_break()
-        Log.grey('Building index...')
+        # Add links to posts to index.html
         for index in range(len(post_titles)):
             post_link = post_links[index]
             post_title = post_titles[index]
