@@ -100,7 +100,7 @@ def process_markdown(html_template, markdown_file):
     output_filename = markdown_file.name.replace(".md", ".html")
     output_file = Path(markdown_file.parent, output_filename)
 
-    if "posts/" in output_filename:
+    if "posts/" in str(output_file):
         post_link = str(output_file)
         post_segment_index = post_link.index("posts/")
         post_link = post_link[post_segment_index:]
@@ -119,7 +119,7 @@ def process_markdown(html_template, markdown_file):
     title = extract_title(md_content)
 
     # Only add title if we're within posts/
-    if "posts/" in output_filename:
+    if "posts/" in str(output_file):
         post_titles.append(title)
 
     output_html = output_html.replace('{{ title }}', title)
@@ -201,12 +201,28 @@ def entry():
         Log.grey('%s exists...' % website_root)
         process_path(website_root)
 
+        posts = ""
+
+        Log.line_break()
+
         # Add links to posts to index.html
         for index in range(len(post_titles)):
             post_link = post_links[index]
             post_title = post_titles[index]
+            posts = posts + '<a href="' + post_link + '">' + post_title + '</a><br>\n'
             Log.grey("post_link: " + post_link + " post_title: " + post_title)
-            # todo - actually build index.html from template
+
+        index_path = Path(website_root, 'index.html')
+        if index_path.exists():
+            index_stream = open(index_path)
+            index_template = index_stream.read()
+            index_stream.close()
+            index_template = index_template.replace("{{ posts }}", posts)
+            index_path.write_text(index_template)
+
+        Log.line_break()
+        Log.green("Finished")
+
     else:
         Log.fatal_error('%s cannot be found' % website_root)
 
