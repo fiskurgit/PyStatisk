@@ -15,6 +15,12 @@ then run with:
 
 `stsk /path/to/blog/`
 
+If you encounter an error when running `stsk` similar to: 
+
+> ImportError: libopenjp2.so.7: cannot open shared object file: No such file or directory
+
+execute the following to fix: `sudo apt-get install libopenjp2-7-dev`
+
 ## Setup
 
 `_template.html` should be placed in root directory of the website, simple example:
