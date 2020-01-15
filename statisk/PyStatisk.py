@@ -48,10 +48,10 @@ def process_images(directory, config_str):
             output_filename = Path(file.parent, '%s%s' % (DITHER_PREFIX, file.name))
 
             filter_name = get_value(config_str, '-algorithm', False)
-            threshold_value = int(get_value(config_str, '-threshold', False))
-
-            if threshold_value is None:
-                threshold_value = 255
+            threshold_arg = get_value(config_str, '-threshold', False)
+            threshold_value = 255
+            if threshold_arg is not None:
+                threshold_value = int(threshold_arg)
 
             if filter_name is not None:
                 # We have a filter - but do we have any foreground or background overrides?
